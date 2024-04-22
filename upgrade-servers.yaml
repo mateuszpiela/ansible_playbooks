@@ -1,0 +1,19 @@
+- name: Upgrade servers
+  hosts: target
+  tasks:
+    - name: Update APT caches in debian (or deratived debian) hosts
+      when: ansible_facts['os_family'] == "Debian"
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Update APT packages in debian (or deratived debian) hosts
+      when: ansible_facts['os_family'] == "Debian"
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - name: Update to latest packages in Red Hat (or deratives) hosts
+      when: ansible_facts['os_family'] == "RedHat"
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
